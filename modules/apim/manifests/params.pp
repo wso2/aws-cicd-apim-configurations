@@ -69,8 +69,8 @@ class apim::params {
 
     # ----- Master-datasources config params -----
     $wso2carbon_db_url = 'jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000'
-    $wso2carbon_db_username = 'CF_DB_USERNAME'
-    $wso2carbon_db_password = 'CF_DB_PASSWORD'
+    $wso2carbon_db_username = 'wso2carbon'
+    $wso2carbon_db_password = 'wso2carbon'
     $wso2carbon_db_driver = 'org.h2.Driver'
     $wso2carbon_db_validation_query = 'SELECT 1'
 
