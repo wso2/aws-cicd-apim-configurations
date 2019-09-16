@@ -31,7 +31,6 @@ class apim::params {
   $try_count = 5
   $try_sleep = 5
   $hostname = 'ALB_DNS_NAME'
-  $mgt_hostname = 'ALB_DNS_NAME'
 
   $template_list = [
     'repository/conf/api-manager.xml',
@@ -126,5 +125,11 @@ class apim::params {
 
   # ----- axis2.xml config params -----
   $clustering_enabled = 'false'
-  $clustering_membership_scheme = 'multicast'
+  $aws_access_key = 'ACCESS_KEY'
+  $aws_secret_key = 'SECRET_KEY'
+  $aws_region = 'REGION_NAME'
+  $local_member_host = 'LOCAL-MEMBER-HOST'
+  $aws_security_group='WSO2SecurityGroup'
+  $aws_tag_key='cluster'
+  $aws_tag_value='apim'
 }
