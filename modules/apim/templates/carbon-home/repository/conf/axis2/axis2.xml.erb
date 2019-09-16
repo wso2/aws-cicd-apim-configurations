@@ -677,7 +677,7 @@
                     is deemed to have left the cluster, it will be detected by the Group Membership
                     Service (GMS) using a TCP ping mechanism.
         -->
-        <parameter name="membershipScheme"><%= @clustering_membership_scheme %></parameter>
+        <parameter name="membershipScheme">aws</parameter>
         <!--<parameter name="licenseKey">xxx</parameter>-->
         <!--<parameter name="mgtCenterURL">http://localhost:8081/mancenter/</parameter>-->
 
@@ -691,11 +691,11 @@
         <!--<parameter name="mcastAddress">228.0.0.4</parameter>-->
 
         <!-- The multicast port to be used -->
-        <parameter name="mcastPort">45564</parameter>
+<!--        <parameter name="mcastPort">45564</parameter>-->
 
-        <parameter name="mcastTTL">100</parameter>
+<!--        <parameter name="mcastTTL">100</parameter>-->
 
-        <parameter name="mcastTimeout">60</parameter>
+<!--        <parameter name="mcastTimeout">60</parameter>-->
 
         <!--
            The IP address of the network interface to which the multicasting has to be bound to.
@@ -706,7 +706,14 @@
         -->
         <!-- The host name or IP address of this member -->
 
-        <parameter name="localMemberHost"><%= @local_ip %></parameter>
+        <parameter name="accessKey"><%= @aws_access_key %></parameter>
+        <parameter name="secretKey"><%= @aws_secret_key %></parameter>
+        <parameter name="securityGroup"><%= @aws_security_group %></parameter>
+        <parameter name="region"><%= @aws_region %></parameter>
+        <parameter name="tagKey"><%= @aws_tag_key %></parameter>
+        <parameter name="tagValue"><%= @aws_tag_value %></parameter>
+
+        <parameter name="localMemberHost"><%= @local_member_host %></parameter>
 
         <!--
             The bind adress of this member. The difference between localMemberHost & localMemberBindAddress
@@ -721,7 +728,7 @@
         The TCP port used by this member. This is the port through which other nodes will
         contact this member
          -->
-        <parameter name="localMemberPort">4000</parameter>
+        <parameter name="localMemberPort">5701</parameter>
 
         <!--
             The bind port of this member. The difference between localMemberPort & localMemberBindPort
@@ -745,12 +752,12 @@
            The list of static or well-known members. These entries will only be valid if the
            "membershipScheme" above is set to "wka"
         -->
-        <members>
-            <member>
-                <hostName>127.0.0.1</hostName>
-                <port>4000</port>
-            </member>
-        </members>
+<!--        <members>-->
+<!--            <member>-->
+<!--                <hostName>127.0.0.1</hostName>-->
+<!--                <port>4000</port>-->
+<!--            </member>-->
+<!--        </members>-->
 
         <!--
         Enable the groupManagement entry if you need to run this node as a cluster manager.
