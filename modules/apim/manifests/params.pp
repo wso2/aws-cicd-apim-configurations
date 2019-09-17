@@ -124,7 +124,7 @@ class apim::params {
     $admin_password = 'admin'
 
   # ----- axis2.xml config params -----
-  $clustering_enabled = 'false'
+  $clustering_enabled = 'true'
   $aws_access_key = 'ACCESS_KEY'
   $aws_secret_key = 'SECRET_KEY'
   $aws_region = 'REGION_NAME'
