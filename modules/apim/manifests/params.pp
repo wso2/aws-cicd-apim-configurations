@@ -24,6 +24,7 @@ class apim::params {
   $carbon_home="/var/lib/jenkins/workspace/${product}-${product_version}/${module_name}/"
   $start_script_template="bin/wso2server.sh"
   $mysql_connector="mysql-connector-java-5.1.41-bin.jar"
+  $localhost = 'ALB_DNS_NAME'
   $puppet_modules_path ="/var/lib/jenkins/workspace/${product}-${product_version}/configs/modules"
 
   $jvmxms = '256m'
@@ -36,6 +37,7 @@ class apim::params {
     'repository/conf/api-manager.xml',
     'repository/conf/datasources/master-datasources.xml',
     'repository/conf/carbon.xml',
+    'repository/conf/identity/identity.xml'
     'repository/conf/user-mgt.xml',
     'repository/conf/axis2/axis2.xml',
   ]
@@ -60,11 +62,11 @@ class apim::params {
     $stream_processor_restapi_username = '${admin.username}'
     $stream_processor_restapi_password = '${admin.password}'
 
-    $api_store_url = 'https://ALB_DNS_NAME/store'
-    $api_store_server_url = 'https://localhost:${mgt.transport.https.port}${carbon.context}services/'
+    $api_store_url = 'https://ALB_DNS_NAME:${mgt.transport.https.port}/store'
+    $api_store_server_url = 'https://ALB_DNS_NAME:${mgt.transport.https.port}${carbon.context}services/'
     $api_store_username = '${admin.username}'
     $api_store_password = '${admin.password}'
-    $api_publisher_url = 'https://ALB_DNS_NAME/publisher'
+    $api_publisher_url = 'https://ALB_DNS_NAME:${mgt.transport.https.port}/publisher'
 
     # ----- Master-datasources config params -----
     $wso2carbon_db_url = 'jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000'
@@ -124,7 +126,7 @@ class apim::params {
     $admin_password = 'admin'
 
   # ----- axis2.xml config params -----
-  $clustering_enabled = 'true'
+  $clustering_enabled = 'false'
   $aws_access_key = 'ACCESS_KEY'
   $aws_secret_key = 'SECRET_KEY'
   $aws_region = 'REGION_NAME'
