@@ -226,7 +226,7 @@
              -If you need to start two API Manager instances in the same machine, you need to give different ports to "ThriftServerPort" value in two nodes.
              -ThriftServerHost - Allows to configure a hostname for the thrift server. It uses the carbon hostname by default.
 	         -The Gateway uses this parameter to connect to the key validation thrift service. -->
-        <KeyValidatorClientType>ThriftClient</KeyValidatorClientType>
+        <KeyValidatorClientType>WSClient</KeyValidatorClientType>
         <ThriftClientConnectionTimeOut>10000</ThriftClientConnectionTimeOut>
         <!--ThriftClientPort>10397</ThriftClientPort-->
 
@@ -339,7 +339,7 @@
     </APIStore>
 
     <APIPublisher>
-        <DisplayURL>true</DisplayURL>
+        <DisplayURL>false</DisplayURL>
         <URL><%= @api_publisher_url %></URL>
         <!-- This parameter specifies enabling the capability of setting API documentation level granular visibility levels.
              By default any document associate with an API will have the same permissions set as the API.With enabling below
