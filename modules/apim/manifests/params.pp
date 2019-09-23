@@ -40,6 +40,7 @@ class apim::params {
     'repository/conf/identity/identity.xml'
     'repository/conf/user-mgt.xml',
     'repository/conf/axis2/axis2.xml',
+    'repository/deployment/server/jaggeryapps/store/site/conf/site.json',
   ]
 
     # ----- api-manager.xml config params -----
