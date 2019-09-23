@@ -37,7 +37,7 @@ class apim::params {
     'repository/conf/api-manager.xml',
     'repository/conf/datasources/master-datasources.xml',
     'repository/conf/carbon.xml',
-    'repository/conf/identity/identity.xml'
+    'repository/conf/identity/identity.xml',
     'repository/conf/user-mgt.xml',
     'repository/conf/axis2/axis2.xml',
     'repository/deployment/server/jaggeryapps/store/site/conf/site.json',
