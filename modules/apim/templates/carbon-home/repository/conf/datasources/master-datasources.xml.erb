@@ -14,58 +14,16 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url><%= @wso2carbon_db_url %></url>
-                    <username><%= @wso2carbon_db_username %></username>
-                    <password><%= @wso2carbon_db_password %></password>
-                    <driverClassName><%= @wso2carbon_db_driver %></driverClassName>
+                    <url>jdbc:h2:repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE</url>
+                    <username>wso2carbon</username>
+                    <password>wso2carbon</password>
+                    <driverClassName>org.h2.Driver</driverClassName>
                     <maxActive>50</maxActive>
                     <maxWait>60000</maxWait>
                     <testOnBorrow>true</testOnBorrow>
-                    <validationQuery><%= @wso2carbon_db_validation_query %></validationQuery>
+                    <validationQuery>SELECT 1</validationQuery>
                     <validationInterval>30000</validationInterval>
                     <defaultAutoCommit>true</defaultAutoCommit>
-                </configuration>
-            </definition>
-        </datasource>
-
-        <datasource>
-            <name>WSO2UM_DB</name>
-            <description>The datasource used by user manager</description>
-            <jndiConfig>
-                <name>jdbc/WSO2UserDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url><%= @wso2user_db_url %></url>
-                    <username><%= @wso2user_db_username %></username>
-                    <password><%= @wso2user_db_password %></password>
-                    <driverClassName><%= @wso2user_db_driver %></driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery><%= @wso2user_db_validation_query %></validationQuery>
-                    <validationInterval>30000</validationInterval>
-                </configuration>
-            </definition>
-        </datasource>
-
-        <datasource>
-            <name>WSO2REG_DB</name>
-            <description>The datasource used by the registry</description>
-            <jndiConfig>
-                <name>jdbc/WSO2RegDB</name>
-            </jndiConfig>
-            <definition type="RDBMS">
-                <configuration>
-                    <url><%= @wso2reg_db_url %></url>
-                    <username><%= @wso2reg_db_username %></username>
-                    <password><%= @wso2reg_db_password %></password>
-                    <driverClassName><%= @wso2reg_db_driver %></driverClassName>
-                    <maxActive>50</maxActive>
-                    <maxWait>60000</maxWait>
-                    <testOnBorrow>true</testOnBorrow>
-                    <validationQuery><%= @wso2reg_db_validation_query %></validationQuery>
-                    <validationInterval>30000</validationInterval>
                 </configuration>
             </definition>
         </datasource>
@@ -78,16 +36,17 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url><%= @wso2am_db_url %></url>
-                    <username><%= @wso2am_db_username %></username>
-                    <password><%= @wso2am_db_password %></password>
-                    <defaultAutoCommit>true</defaultAutoCommit>
-                    <driverClassName><%= @wso2am_db_driver %></driverClassName>
+                    <url><%= @wso2_am_db['url'] %></url>
+                    <username><%= @wso2_am_db['username'] %></username>
+                    <password><%= @wso2_am_db['password'] %></password>
+                    <driverClassName><%= @wso2_am_db['driver_class_name'] %></driverClassName>
                     <maxActive>50</maxActive>
                     <maxWait>60000</maxWait>
+                    <minIdle>5</minIdle>
                     <testOnBorrow>true</testOnBorrow>
-                    <validationQuery><%= @wso2am_db_validation_query %></validationQuery>
+                    <validationQuery><%= @wso2_am_db['validation_query'] %></validationQuery>
                     <validationInterval>30000</validationInterval>
+                    <defaultAutoCommit>true</defaultAutoCommit>
                 </configuration>
             </definition>
         </datasource>
@@ -100,15 +59,15 @@
             </jndiConfig>
             <definition type="RDBMS">
                 <configuration>
-                    <url><%= @stat_db_url %></url>
-                    <username><%= @stat_db_username %></username>
-                    <password><%= @stat_db_password %></password>
+                    <url>jdbc:h2:../tmpStatDB/WSO2AM_STATS_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000;AUTO_SERVER=TRUE</url>
+                    <username>wso2carbon</username>
+                    <password>wso2carbon</password>
                     <defaultAutoCommit>true</defaultAutoCommit>
-                    <driverClassName><%= @stat_db_driver %></driverClassName>
+                    <driverClassName>org.h2.Driver</driverClassName>
                     <maxActive>50</maxActive>
                     <maxWait>60000</maxWait>
                     <testOnBorrow>true</testOnBorrow>
-                    <validationQuery><%= @stat_db_validation_query %></validationQuery>
+                    <validationQuery>SELECT 1</validationQuery>
                     <validationInterval>30000</validationInterval>
                 </configuration>
             </definition>
@@ -132,6 +91,52 @@
                     <validationQuery>SELECT 1</validationQuery>
                     <validationInterval>30000</validationInterval>
                     <defaultAutoCommit>false</defaultAutoCommit>
+                </configuration>
+            </definition>
+        </datasource>
+
+        <datasource>
+            <name>WSO2UM_DB</name>
+            <description>The datasource used by user manager</description>
+            <jndiConfig>
+                <name>jdbc/WSO2UM_DB</name>
+            </jndiConfig>
+            <definition type="RDBMS">
+                <configuration>
+                    <url><%= @wso2_um_db['url'] %></url>
+                    <username><%= @wso2_um_db['username'] %></username>
+                    <password><%= @wso2_um_db['password'] %></password>
+                    <driverClassName><%= @wso2_um_db['driver_class_name'] %></driverClassName>
+                    <maxActive>50</maxActive>
+                    <maxWait>60000</maxWait>
+                    <minIdle>5</minIdle>
+                    <testOnBorrow>true</testOnBorrow>
+                    <validationQuery><%= @wso2_um_db['validation_query'] %></validationQuery>
+                    <validationInterval>30000</validationInterval>
+                    <defaultAutoCommit>true</defaultAutoCommit>
+                </configuration>
+            </definition>
+        </datasource>
+
+        <datasource>
+            <name>WSO2REG_DB</name>
+            <description>The datasource used by the registry</description>
+            <jndiConfig>
+                <name>jdbc/WSO2REG_DB</name>
+            </jndiConfig>
+            <definition type="RDBMS">
+                <configuration>
+                    <url><%= @wso2_reg_db['url'] %></url>
+                    <username><%= @wso2_reg_db['username'] %></username>
+                    <password><%= @wso2_reg_db['password'] %></password>
+                    <driverClassName><%= @wso2_reg_db['driver_class_name'] %></driverClassName>
+                    <maxActive>50</maxActive>
+                    <maxWait>60000</maxWait>
+                    <minIdle>5</minIdle>
+                    <testOnBorrow>true</testOnBorrow>
+                    <validationQuery><%= @wso2_reg_db['validation_query'] %></validationQuery>
+                    <validationInterval>30000</validationInterval>
+                    <defaultAutoCommit>true</defaultAutoCommit>
                 </configuration>
             </definition>
         </datasource>
