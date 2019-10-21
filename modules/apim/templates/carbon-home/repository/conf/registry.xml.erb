@@ -33,12 +33,12 @@
     <dbConfig name="govregistry">
         <dataSource>jdbc/WSO2REG_DB</dataSource>
     </dbConfig>
-    <remoteInstance url="https://localhost:9443/registry">
+    <remoteInstance url="https://publisher">
         <id>gov</id>
-           <cacheId>user@jdbc:mysql://db.mysql-wso2.com:3306/regdb</cacheId>
+        <cacheId><%= @wso2_reg_db['url'] %>:3306/WSO2AM_COMMON_DB</cacheId>
         <dbConfig>govregistry</dbConfig>
         <readOnly>false</readOnly>
-        <enableCache>false</enableCache>
+        <enableCache>true</enableCache>
         <registryRoot>/</registryRoot>
     </remoteInstance>
     <mount path="/_system/governance" overwrite="true">

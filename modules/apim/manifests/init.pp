@@ -16,27 +16,29 @@
 
 # Class: apim
 # Init class of API Manager default profile
-class apim inherits apim::params {
+
+class apim inherits apim::params{
 
   # Copy configuration changes to the installed directory
-  $template_list.each |String $template| {
-    file { "${carbon_home}/${product}-${product_version}/${template}":
+  $template_list.each | String $template | {
+    file { "/var/lib/jenkins/workspace/wso2am-2.6.0/${module_name}/wso2am-2.6.0/${template}":
       ensure  => file,
       mode    => '0644',
-      content => template("${puppet_modules_path}/${module_name}/templates/carbon-home/${template}.erb"),
+      content => template("${module_name}/carbon-home/${template}.erb")
     }
   }
 
   # Copy wso2server.sh to installed directory
-  file { "${carbon_home}/${product}-${product_version}/${start_script_template}":
+  file { "/var/lib/jenkins/workspace/wso2am-2.6.0/${module_name}/wso2am-2.6.0/${start_script_template}":
     ensure  => file,
     mode    => '0754',
-    content => template("${puppet_modules_path}/${module_name}/templates/carbon-home/${start_script_template}.erb")
+    content => template("${module_name}/carbon-home/${start_script_template}.erb")
   }
 
-    # Copy mysql-connector-java-5.1.41-bin.jar to installed directory
-    file { "$carbon_home/$product-$product_version/repository/components/lib/${mysql_connector}":
-      mode   => '0754',
-      source => "puppet:///modules/${module_name}/repository/components/lib/${mysql_connector}",
-    }
+  # Copy mysql connector to the installed directory
+  file { "/var/lib/jenkins/workspace/wso2am-2.6.0/${module_name}/wso2am-2.6.0/repository/components/lib/${db_connector}":
+    mode   => '0754',
+    source => "puppet:///modules/${module_name}/repository/components/lib/${db_connector}",
+  }
+
 }

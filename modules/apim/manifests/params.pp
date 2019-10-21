@@ -14,125 +14,171 @@
 #  limitations under the License.
 # ----------------------------------------------------------------------------
 
-# Claas apim::params
+# Class apim::params
 # This class includes all the necessary parameters.
 class apim::params {
 
-  $product = 'wso2am'
-  $product_version = '2.6.0'
-  $apim_package = 'wso2am-2.6.0.zip'
-  $carbon_home="/var/lib/jenkins/workspace/${product}-${product_version}/${module_name}/"
-  $start_script_template="bin/wso2server.sh"
-  $mysql_connector="mysql-connector-java-5.1.41-bin.jar"
-  $localhost = 'ALB_DNS_NAME'
-  $puppet_modules_path ="/var/lib/jenkins/workspace/${product}-${product_version}/configs/modules"
-
-  $jvmxms = '256m'
-  $jvmxmx = '1024m'
-  $try_count = 5
-  $try_sleep = 5
+  $user = 'wso2carbon'
+  $user_id = 802
+  $user_group = 'wso2'
+  $user_home = '/home/$user'
+  $user_group_id = 802
+  $service_name = 'wso2am'
   $hostname = 'ALB_DNS_NAME'
+  $mgt_hostname = 'ALB_DNS_NAME'
+  $enable_test_mode = 'ENABLE_TEST_MODE'
+  $jdk_version = 'JDK_TYPE'
+  $db_managment_system = 'mysql'
+  $oracle_sid = 'WSO2AMDB'
+  $db_password = 'CF_DB_PASSWORD'
+  $aws_access_key = 'ACCESS_KEY'
+  $aws_secret_key = 'SECRET_KEY'
+  $aws_region = 'REGION_NAME'
+  $local_member_host = 'LOCAL-MEMBER-HOST'
+  $http_proxy_port  = '80'
+  $https_proxy_port = '443'
+  $am_package = 'wso2am-2.6.0.zip'
+
+  # Define the template
+  $start_script_template = 'bin/wso2server.sh'
 
   $template_list = [
     'repository/conf/api-manager.xml',
     'repository/conf/datasources/master-datasources.xml',
     'repository/conf/carbon.xml',
-    'repository/conf/identity/identity.xml',
+    'repository/conf/registry.xml',
     'repository/conf/user-mgt.xml',
     'repository/conf/axis2/axis2.xml',
-    'repository/deployment/server/jaggeryapps/store/site/conf/site.json',
+    'repository/conf/identity/identity.xml',
+    # 'repository/conf/security/authenticators.xml',
+    'repository/conf/tomcat/catalina-server.xml',
   ]
 
-    # ----- api-manager.xml config params -----
-    $auth_manager_url = 'https://localhost:${mgt.transport.https.port}${carbon.context}services/'
-    $auth_manager_username = '${admin.username}'
-    $auth_manager_password = '${admin.password}'
-    $auth_manager_check_permission_remotely = 'false'
+  # Configuration Params
+  if $jdk_version == 'Oracle_JDK8' {
+    $jdk_type = "jdk-8u144-linux-x64.tar.gz"
+    $jdk_path = "jdk1.8.0_144"
+  } elsif $jdk_version == 'Open_JDK8' {
+    $jdk_type = "jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz"
+    $jdk_path = "jdk1.8.0_192"
+  }
 
-    $api_gateway_url = 'https://localhost:${mgt.transport.https.port}${carbon.context}services/'
-    $api_gateway_username = '${admin.username}'
-    $api_gateway_password = '${admin.password}'
-    $api_gateway_endpoint = 'http://ALB_DNS_NAME:8280,https://ALB_DNS_NAME:8243'
-    $api_gateway_ws_endpoint = 'ws://${carbon.local.ip}:9099'
+  # ----- api-manager.xml config params -----
+  $auth_manager = {
+    server_url                => 'https://localhost:${mgt.transport.https.port}${carbon.context}services/',
+    username                  => '${admin.username}',
+    password                  => '${admin.password}',
+    check_permission_remotely => 'false'
+  }
 
-    $analytics_enable = 'false'
-    $stream_processor_url = '{tcp://localhost:7612}'
-    $stream_processor_username = '${admin.username}'
-    $stream_processor_password = '${admin.password}'
-    $stream_processor_restapi_url = 'https://localhost:7444'
-    $stream_processor_restapi_username = '${admin.username}'
-    $stream_processor_restapi_password = '${admin.password}'
+  $api_gateway = {
+    server_url          => 'https://localhost:${mgt.transport.https.port}${carbon.context}services/',
+    username            => '${admin.username}',
+    password            => '${admin.password}',
+    gateway_endpoint    => 'http://ALB_DNS_NAME:${http.nio.port},https://ALB_DNS_NAME:${https.nio.port}',
+    gateway_ws_endpoint => 'ws://${carbon.local.ip}:9099'
+  }
 
-    $api_store_url = 'https://ALB_DNS_NAME:${mgt.transport.https.port}/store'
-    $api_store_server_url = 'https://localhost:${mgt.transport.https.port}${carbon.context}services/'
-    $api_store_username = '${admin.username}'
-    $api_store_password = '${admin.password}'
-    $api_publisher_url = 'https://localhost:${mgt.transport.https.port}/publisher'
+  $api_store = {
+    url        => 'https://ALB_DNS_NAME:${mgt.transport.https.port}/store',
+    server_url => 'https://ALB_DNS_NAME:${mgt.transport.https.port}${carbon.context}services/',
+    username   => '${admin.username}',
+    password   => '${admin.password}'
+  }
 
-    # ----- Master-datasources config params -----
-    $wso2carbon_db_url = 'jdbc:h2:./repository/database/WSO2CARBON_DB;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=60000'
-    $wso2carbon_db_username = 'wso2carbon'
-    $wso2carbon_db_password = 'wso2carbon'
-    $wso2carbon_db_driver = 'org.h2.Driver'
-    $wso2carbon_db_validation_query = 'SELECT 1'
+  $api_publisher = {
+    url => 'https://ALB_DNS_NAME:${mgt.transport.https.port}/publisher'
+  }
 
-    $wso2am_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_DB?autoReconnect=true&amp;useSSL=false'
-    $wso2am_db_username = 'CF_DB_USERNAME'
-    $wso2am_db_password = 'CF_DB_PASSWORD'
-    $wso2am_db_driver = 'com.mysql.jdbc.Driver'
-    $wso2am_db_validation_query = 'SELECT 1'
+  # ----- Master-datasources config params -----
 
-    $wso2reg_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_REG_DB?autoReconnect=true&amp;useSSL=false'
-    $wso2reg_db_username = 'CF_DB_USERNAME'
-    $wso2reg_db_password = 'CF_DB_PASSWORD'
-    $wso2reg_db_driver = 'com.mysql.jdbc.Driver'
-    $wso2reg_db_validation_query = 'SELECT 1'
+  if $db_managment_system == 'mysql' {
+    $reg_db_user_name = 'CF_DB_USERNAME'
+    $um_db_user_name = 'CF_DB_USERNAME'
+    $am_db_user_name = 'CF_DB_USERNAME'
+    $wso2_reg_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_REG_DB?autoReconnect=true&amp;useSSL=false'
+    $wso2_um_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_USER_DB?autoReconnect=true&amp;useSSL=false'
+    $wso2_am_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_DB?autoReconnect=true&amp;useSSL=false'
+    $db_driver_class_name = 'com.mysql.jdbc.Driver'
+    $db_connector = 'mysql-connector-java-5.1.41-bin.jar'
+    $db_validation_query = 'SELECT 1'
+  } elsif $db_managment_system =~ 'oracle' {
+    $reg_db_user_name = 'WSO2AM_COMMON_DB'
+    $um_db_user_name = 'WSO2AM_COMMON_DB'
+    $am_db_user_name = 'WSO2AM_APIMGT_DB'
+    $wso2_reg_db_url = "jdbc:oracle:thin:@CF_RDS_URL:1521/${oracle_sid}"
+    $wso2_um_db_url = "jdbc:oracle:thin:@CF_RDS_URL:1521/${oracle_sid}"
+    $wso2_am_db_url = "jdbc:oracle:thin:@CF_RDS_URL:1521/${oracle_sid}"
+    $db_driver_class_name = 'oracle.jdbc.OracleDriver'
+    $db_validation_query = 'SELECT 1 FROM DUAL'
+    $db_connector = 'ojdbc8.jar'
+  } elsif $db_managment_system == 'sqlserver-se' {
+    $reg_db_user_name = 'CF_DB_USERNAME'
+    $um_db_user_name = 'CF_DB_USERNAME'
+    $am_db_user_name = 'CF_DB_USERNAME'
+    $wso2_reg_db_url = 'jdbc:sqlserver://CF_RDS_URL:1433;databaseName=WSO2AM_COMMON_DB;SendStringParametersAsUnicode=false'
+    $wso2_um_db_url = 'jdbc:sqlserver://CF_RDS_URL:1433;databaseName=WSO2AM_COMMON_DB;SendStringParametersAsUnicode=false'
+    $wso2_am_db_url = 'jdbc:sqlserver://CF_RDS_URL:1433;databaseName=WSO2AM_APIMGT_DB;SendStringParametersAsUnicode=false'
+    $db_driver_class_name = 'com.microsoft.sqlserver.jdbc.SQLServerDriver'
+    $db_connector = 'mssql-jdbc-7.0.0.jre8.jar'
+    $db_validation_query = 'SELECT 1'
+  } elsif $db_managment_system == 'postgres' {
+    $reg_db_user_name = 'CF_DB_USERNAME'
+    $um_db_user_name = 'CF_DB_USERNAME'
+    $am_db_user_name = 'CF_DB_USERNAME'
+    $wso2_reg_db_url = 'jdbc:postgresql://CF_RDS_URL:5432/WSO2AM_COMMON_DB'
+    $wso2_um_db_url = 'jdbc:postgresql://CF_RDS_URL:5432/WSO2AM_COMMON_DB'
+    $wso2_am_db_url = 'jdbc:postgresql://CF_RDS_URL:5432/WSO2AM_APIMGT_DB'
+    $db_driver_class_name = 'org.postgresql.Driver'
+    $db_connector = 'postgresql-42.2.5.jar'
+    $db_validation_query = 'SELECT 1; COMMIT'
+  }
 
-    $wso2user_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_USER_DB?autoReconnect=true&amp;useSSL=false'
-    $wso2user_db_username = 'CF_DB_USERNAME'
-    $wso2user_db_password = 'CF_DB_PASSWORD'
-    $wso2user_db_driver = 'com.mysql.jdbc.Driver'
-    $wso2user_db_validation_query = 'SELECT 1'
+  $wso2_am_db = {
+    url               => $wso2_am_db_url,
+    username          => $am_db_user_name,
+    password          => $db_password,
+    driver_class_name => $db_driver_class_name,
+    validation_query  => $db_validation_query,
+  }
 
-    $stat_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2AM_STATS_DB?autoReconnect=true&amp;useSSL=false'
-    $stat_db_username = 'CF_DB_USERNAME'
-    $stat_db_password = 'CF_DB_PASSWORD'
-    $stat_db_driver = 'com.mysql.jdbc.Driver'
-    $stat_db_validation_query = 'SELECT 1'
+  $wso2_um_db = {
+    url               => $wso2_um_db_url,
+    username          => $um_db_user_name,
+    password          => $db_password,
+    driver_class_name => $db_driver_class_name,
+    validation_query  => $db_validation_query,
+  }
 
-    $mb_store_db_url = 'jdbc:mysql://RDS_DNS_NAME:3306/WSO2MB_DB?autoReconnect=true&amp;useSSL=false'
-    $mb_store_db_username = 'CF_DB_USERNAME'
-    $mb_store_db_password = 'CF_DB_PASSWORD'
-    $mb_store_driver = 'com.mysql.jdbc.Driver'
-    $mb_store_db_validation_query = 'SELECT 1'
+  $wso2_reg_db = {
+    url               => $wso2_reg_db_url,
+    username          => $reg_db_user_name,
+    password          => $db_password,
+    driver_class_name => $db_driver_class_name,
+    validation_query  => $db_validation_query,
+  }
 
-    # ----- Carbon.xml config params -----
-    $ports_offset = 0
-    $key_store = '${carbon.home}/repository/resources/security/wso2carbon.jks'
-    $key_store_type = 'JKS'
-    $key_store_password = 'wso2carbon'
-    $key_store_key_alias = 'wso2carbon'
-    $key_store_key_password = 'wso2carbon'
-    $internal_key_store = '${carbon.home}/repository/resources/security/wso2carbon.jks'
-    $internal_key_store_type = 'JKS'
-    $internal_key_store_password = 'wso2carbon'
-    $internal_key_store_key_alias = 'wso2carbon'
-    $internal_key_store_key_password = 'wso2carbon'
-    $trust_store = '${carbon.home}/repository/resources/security/client-truststore.jks'
-    $trust_store_type = 'JKS'
-    $trust_store_password = 'wso2carbon'
+  # ----- Carbon.xml config params -----
+  $ports = {
+    offset => 0
+  }
 
-    # ----- user-mgt.xml config params -----
-    $admin_username = 'admin'
-    $admin_password = 'admin'
+  $key_store = {
+    location     => '${carbon.home}/repository/resources/security/wso2carbon.jks',
+    type         => 'JKS',
+    password     => 'wso2carbon',
+    key_alias    => 'wso2carbon',
+    key_password => 'wso2carbon',
+  }
 
-  # ----- axis2.xml config params -----
-  $clustering_enabled = 'false'
-  $aws_access_key = 'ACCESS_KEY'
-  $aws_secret_key = 'SECRET_KEY'
-  $aws_region = 'REGION_NAME'
-  $local_member_host = 'LOCAL-MEMBER-HOST'
-  $aws_security_group='WSO2SecurityGroup'
-  $aws_tag_key='cluster'
-  $aws_tag_value='apim'
+  $trust_store = {
+    location => '${carbon.home}/repository/resources/security/client-truststore.jks',
+    type     => 'JKS',
+    password => 'wso2carbon'
+  }
+
+  # ------ Axis2.xml config params -----
+  $clustering               = {
+    enabled => false,
+  }
 }

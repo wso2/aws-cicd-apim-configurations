@@ -18,5 +18,4 @@
 # Class: apim::custom
 # This class is reserved to run custom user code before starting the server.
 class apim::custom {
-  # resources
 }
