@@ -18,11 +18,6 @@
 # This class includes all the necessary parameters.
 class apim::params {
 
-  $user = 'wso2carbon'
-  $user_id = 802
-  $user_group = 'wso2'
-  $user_home = '/home/$user'
-  $user_group_id = 802
   $service_name = 'wso2am'
   $hostname = 'ALB_DNS_NAME'
   $mgt_hostname = 'ALB_DNS_NAME'
@@ -37,7 +32,6 @@ class apim::params {
   $local_member_host = 'LOCAL-MEMBER-HOST'
   $http_proxy_port  = '80'
   $https_proxy_port = '443'
-  $am_package = 'wso2am-2.6.0.zip'
 
   # Define the template
   $start_script_template = 'bin/wso2server.sh'
@@ -53,15 +47,6 @@ class apim::params {
     # 'repository/conf/security/authenticators.xml',
     'repository/conf/tomcat/catalina-server.xml',
   ]
-
-  # Configuration Params
-  if $jdk_version == 'Oracle_JDK8' {
-    $jdk_type = "jdk-8u144-linux-x64.tar.gz"
-    $jdk_path = "jdk1.8.0_144"
-  } elsif $jdk_version == 'Open_JDK8' {
-    $jdk_type = "jdk-8u192-ea-bin-b02-linux-x64-19_jul_2018.tar.gz"
-    $jdk_path = "jdk1.8.0_192"
-  }
 
   # ----- api-manager.xml config params -----
   $auth_manager = {
