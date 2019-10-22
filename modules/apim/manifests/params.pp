@@ -43,6 +43,7 @@ class apim::params {
     'repository/conf/registry.xml',
     'repository/conf/user-mgt.xml',
     'repository/conf/axis2/axis2.xml',
+    'repository/deployment/server/jaggeryapps/store/site/conf/site.json',
     'repository/conf/identity/identity.xml',
     # 'repository/conf/security/authenticators.xml',
     'repository/conf/tomcat/catalina-server.xml',
